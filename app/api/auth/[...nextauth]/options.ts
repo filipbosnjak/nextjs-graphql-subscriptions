@@ -23,7 +23,7 @@ export const options: AuthOptions = {
     },
     callbacks: {
         // @ts-ignore
-        async jwt({ token, user  }: { token: any, user: any}) {
+        async jwt({ token, user }: { token: any, user: any}) {
             if (user) token.role = user.role;
             return token;
         },
