@@ -1,8 +1,8 @@
 import {githubProvider} from "@/app/api/auth/[...nextauth]/(providers)/GithubProvider";
 import {googleProvider} from "@/app/api/auth/[...nextauth]/(providers)/GoogleProvider";
 import {credentialsProvider} from "@/app/api/auth/[...nextauth]/(providers)/CredentialsProvider";
+import {AuthOptions} from "next-auth";
 // @ts-ignore
-import {AuthOptions} from "next-auth/src/core/types";
 
 /*
     * This is the options object for NextAuth.
@@ -23,13 +23,13 @@ export const options: AuthOptions = {
     },
     callbacks: {
         // @ts-ignore
-        async jwt({ token, user }: { token: any, user: any}) {
-            if (user) token.role = user.role;
+        async jwt({ token, user }) {
+            //if (user) token.role = user.role;
             return token;
         },
         // @ts-ignore
-        async session({ session, token }: { token: any, user: any}) {
-            if (session?.user) session.user.role = token.role;
+        async session({ session, token }){
+        //if (session?.user) session.user.role = token.role;
             return session;
         },
     },
