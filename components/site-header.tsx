@@ -49,7 +49,7 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
-            <ThemeToggle />
+            <ThemeToggle className={""}/>
             <SignOutButton />
           </nav>
         </div>

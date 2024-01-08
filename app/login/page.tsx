@@ -7,6 +7,7 @@ import { LoginAuthForm } from "@/app/login/components/LoginAuthForm";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
+import {ThemeToggle} from "@/components/theme-toggle";
 
 export const metadata: Metadata = {
   title: "Authentication",
@@ -21,6 +22,7 @@ export default async function AuthenticationPage() {
   return (
     <>
       <div className="container relative h-screen  flex-col items-center justify-center grid lg:max-w-none lg:px-0">
+        <ThemeToggle className={"absolute left-4 top-4 md:left-8 md:top-8"} />
         <Link
           href="/register"
           className={cn(
@@ -59,7 +61,6 @@ export default async function AuthenticationPage() {
           </div>
         </div>
       </div>
-      )
     </>
   );
 }

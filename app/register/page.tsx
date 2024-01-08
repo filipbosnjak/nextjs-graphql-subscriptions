@@ -8,6 +8,7 @@ import { getProviders } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
+import {ThemeToggle} from "@/components/theme-toggle";
 
 export const metadata: Metadata = {
   title: "Authentication",
@@ -32,6 +33,7 @@ export default async function AuthenticationPage() {
         >
           Login
         </Link>
+        <ThemeToggle className={"absolute left-4 top-4 md:left-8 md:top-8"} />
         <div className="lg:p-8">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
