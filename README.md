@@ -1,4 +1,3 @@
-Live link: https://next-auth-starter-two.vercel.app/
 
 # next-template
 
