@@ -1,0 +1,8 @@
+{
+  "type": "subscribe",
+  "id": 1,
+  "payload": {
+    "query": "subscription { clock }",
+    "variables": {}
+  }
+}
