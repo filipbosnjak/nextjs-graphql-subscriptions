@@ -1,5 +1,5 @@
-import {GraphqlContextt} from "@/lib/types";
+import {GraphqlContext} from "@/lib/types";
 
-export const info = (parent: any, args: any, context: GraphqlContextt) => {
+export const info = (parent: any, args: any, context: GraphqlContext) => {
   return "some info"
 }

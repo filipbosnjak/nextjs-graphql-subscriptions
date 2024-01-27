@@ -1,4 +1,5 @@
-/*
+import {GraphqlContext} from "@/lib/types";
+
 const { createServer } = require('http')
 const { WebSocketServer } = require('ws')
 const { createYoga, createSchema } = require('graphql3-yoga')
@@ -34,13 +35,14 @@ type MessageInput = {
 }
 
 // prepare yoga
+
 const yoga = createYoga({
     graphqlEndpoint,
     graphiql: {
       subscriptionsProtocol: 'WS'
     },
     schema: createSchema({
-      typeDefs: /!* GraphQL *!/ `
+      typeDefs: /* GraphQL */ `
         type Query {
           hello: String!
         }
@@ -69,12 +71,26 @@ const yoga = createYoga({
         },
         Subscription: {
           messages: {
-            subscribe: () => pubsub.asyncIterator(["MESSAGE"])
+            subscribe: (arent: any, args: any, context: GraphqlContext, info: any) => {
+                console.log(context)
+                return context.pubsub.subscribe('NEW_MSG');
+            },
           }
         }
       }
-    })
-  })
+    }),
+    // @ts-ignore
+    context: ({req}) => {
+        return {
+            req,
+            pubsub,
+            userId:
+                req && req.headers.authorization
+                    ? ""
+                    : null
+        };
+    },
+});
 
 ;(async () => {
   await app.prepare()
@@ -147,4 +163,3 @@ const yoga = createYoga({
   GraphQL WebSocket server running on ws://${hostname}:${port}${graphqlEndpoint}
 `)
 })()
-*/

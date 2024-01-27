@@ -1,11 +1,11 @@
-import {GraphqlContextt} from "@/lib/types";
+import {GraphqlContext} from "@/lib/types";
 
 export type Message = {
   body: string;
   from: string;
 }
 
-export const sendMessage = async (parent: any, args: any, context: GraphqlContextt) => {
+export const sendMessage = async (parent: any, args: any, context: GraphqlContext) => {
   const message: Message = {
     body: args.message,
     from: "USER",
