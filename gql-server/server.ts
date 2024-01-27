@@ -1,10 +1,11 @@
+/*
 const { createServer } = require('http')
 const { WebSocketServer } = require('ws')
-const { createYoga, createSchema } = require('graphql-yoga')
-const { useServer } = require('graphql-ws/lib/use/ws')
+const { createYoga, createSchema } = require('graphql3-yoga')
+const { useServer } = require('graphql3-ws/lib/use/ws')
 const { parse } = require('url')
 const next = require('next')
-const {PubSub} = require("graphql-subscriptions")
+const {PubSub} = require("graphql3-subscriptions")
 
 const dev = process.env.NODE_ENV !== 'production'
 const hostname = 'localhost'
@@ -13,10 +14,16 @@ const port = 9091
 // prepare nextjs
 const app = next({ dev, hostname, port })
 
-// match the route next would use if yoga was in `pages/api/graphql.ts`
-const graphqlEndpoint = '/api/graphql'
+// match the route next would use if yoga was in `pages/api/graphql3.ts`
+const graphqlEndpoint = '/api/graphql3'
 
-const pubsub = new PubSub();
+export type PubSub = {
+  publish(triggerName: string, payload: any): Promise<void>;
+  subscribe(triggerName: string, onMessage: (...args: any[]) => void): Promise<number>;
+  unsubscribe(subId: number): void;
+}
+
+const pubsub: PubSub = new PubSub();
 
 type Message = {
   message: String
@@ -33,7 +40,7 @@ const yoga = createYoga({
       subscriptionsProtocol: 'WS'
     },
     schema: createSchema({
-      typeDefs: /* GraphQL */ `
+      typeDefs: /!* GraphQL *!/ `
         type Query {
           hello: String!
         }
@@ -94,7 +101,7 @@ const yoga = createYoga({
   // create websocket server
   const wsServer = new WebSocketServer({ server, path: graphqlEndpoint })
 
-  // prepare graphql-ws
+  // prepare graphql3-ws
   useServer(
     {
       // @ts-ignore
@@ -140,3 +147,4 @@ const yoga = createYoga({
   GraphQL WebSocket server running on ws://${hostname}:${port}${graphqlEndpoint}
 `)
 })()
+*/

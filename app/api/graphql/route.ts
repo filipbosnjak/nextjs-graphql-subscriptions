@@ -1,37 +1,53 @@
-// Next.js Custom Route Handler: https://nextjs.org/docs/app/building-your-application/routing/router-handlers
-import { createSchema, createYoga } from 'graphql-yoga'
-import {log} from "next/dist/server/typescript/utils";
-import {schema} from "@/app/api/graphql/schema";
+import {createYoga, createPubSub, createSchema, PubSub} from 'graphql-yoga';
+import * as Query from '@/resolvers/Query';
+import * as Mutation from '@/resolvers/Mutation';
+import * as Subscription from '@/resolvers/Subscription';
+import fs from 'fs';
+import path from 'path';
+import type { NextApiRequest, NextApiResponse } from 'next'
 
+export type PubSubPublishArgsByKey = {
+  [key: string]: [] | [any] | [number | string, any];
+};
 
-const { handleRequest } = createYoga({
-  schema: createSchema({
-    typeDefs: schema,
-    resolvers: {
-      Query: {
-        greetings: () => 'This is the `greetings` field of the root `Query` type',
-        users: () => {
-          return [
-            { id: '1', name: 'John Doe' },
-            { id: '2', name: 'Jane Doe' }
-          ]
-        }
-      },
-      Mutation: {
-        createUser: (parent, args) => {
-          const { name } = args
-          const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-          return { id, name }
-        }
-      }
-    }
-  }),
+const pubsub: PubSub<PubSubPublishArgsByKey> = createPubSub();
 
-  // While using Next.js file convention for routing, we need to configure Yoga to use the correct endpoint
+const resolvers = {
+  Query,
+  Mutation,
+  Subscription,
+};
+
+export const config = {
+  api: {
+    // Disable body parsing (required for file uploads)
+    bodyParser: false,
+  },
+};
+
+const {handleRequest} =  createYoga<{
+  req: NextApiRequest
+  res: NextApiResponse
+}>({
   graphqlEndpoint: '/api/graphql',
-
-  // Yoga needs to know how to create a valid Next response
-  fetchAPI: { Response }
-})
+  /* @ts-ignore */
+  schema: createSchema({
+    typeDefs: fs.readFileSync(
+      path.join(process.cwd(), 'schema.graphql'),
+      'utf8'
+    ),
+    resolvers,
+  }),
+  context: ({req}) => {
+    return {
+      req,
+      pubsub,
+      userId:
+        req && req.headers.authorization
+          ? ""
+          : null
+    };
+  },
+});
 
 export { handleRequest as GET, handleRequest as POST, handleRequest as OPTIONS }
