@@ -18,13 +18,6 @@ const resolvers = {
   Subscription,
 };
 
-export const config = {
-  api: {
-    // Disable body parsing (required for file uploads)
-    bodyParser: false,
-  },
-};
-
 const {handleRequest} =  createYoga<{
   req: NextApiRequest
   res: NextApiResponse
