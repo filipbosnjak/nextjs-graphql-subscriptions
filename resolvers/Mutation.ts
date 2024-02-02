@@ -14,12 +14,7 @@ export const sendMessage = async (parent: any, args: any, context: GraphqlContex
   console.log("Publishing NEW_MSG: ", message);
 
   context.pubsub.publish("NEW_MSG", {
-        newMessage: message,
+    newMessage: message,
   });
-
-
-
-
-
   return "Message sent";
 }
