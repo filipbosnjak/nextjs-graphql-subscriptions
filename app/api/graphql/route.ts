@@ -1,10 +1,9 @@
-import {createYoga, createPubSub, createSchema, PubSub} from 'graphql-yoga';
+import {createPubSub, createSchema, createYoga, PubSub} from 'graphql-yoga';
 import * as Query from '@/resolvers/Query';
 import * as Mutation from '@/resolvers/Mutation';
 import * as Subscription from '@/resolvers/Subscription';
-import fs from 'fs';
-import path from 'path';
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type {NextApiRequest, NextApiResponse} from 'next'
+import {schema} from "@/schema";
 
 export type PubSubPublishArgsByKey = {
   [key: string]: [] | [any] | [number | string, any];
@@ -25,10 +24,7 @@ const {handleRequest} =  createYoga<{
   graphqlEndpoint: '/api/graphql',
   /* @ts-ignore */
   schema: createSchema({
-    typeDefs: fs.readFileSync(
-      path.join(process.cwd(), 'schema.graphql'),
-      'utf8'
-    ),
+    typeDefs: schema,
     resolvers,
   }),
   context: ({req}) => {
@@ -41,6 +37,7 @@ const {handleRequest} =  createYoga<{
           : null
     };
   },
+  cors: false
 });
 
 export { handleRequest as GET, handleRequest as POST, handleRequest as OPTIONS }

@@ -8,7 +8,7 @@ function newMessageSubscribe(parent: any, args: any, context: GraphqlContext, in
 
 export const newMessage = {
   subscribe: (arent: any, args: any, context: GraphqlContext, info: any) => {
-    console.log(context)
+    console.log("subscribing...")
     return context.pubsub.subscribe('NEW_MSG');
   },
 /*  resolve: (payload: any) => {
