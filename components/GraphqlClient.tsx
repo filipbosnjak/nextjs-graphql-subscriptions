@@ -4,7 +4,7 @@ import React from 'react';
 import {ApolloClient, InMemoryCache} from "@apollo/client";
 
 export const gqlClient = new ApolloClient({
-  uri: 'http://localhost:3000/api/graphql',
+  uri: '/api/graphql',
   cache: new InMemoryCache(),
 });
 

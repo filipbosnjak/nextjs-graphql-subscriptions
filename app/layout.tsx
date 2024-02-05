@@ -9,7 +9,6 @@ import {TailwindIndicator} from "@/components/tailwind-indicator"
 import {ThemeProvider} from "@/components/theme-provider"
 import AuthProvider from "@/components/auth/AuthProvider";
 import {Toaster} from "@/components/ui/toaster";
-import {ApolloClient, InMemoryCache} from "@apollo/client";
 
 export const metadata: Metadata = {
   title: {
@@ -33,11 +32,6 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-
-  const client = new ApolloClient({
-    uri: 'http://localhost:3000/api/graphql',
-    cache: new InMemoryCache(),
-  });
 
   return (
     <>
