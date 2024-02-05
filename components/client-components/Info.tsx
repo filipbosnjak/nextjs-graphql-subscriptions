@@ -36,7 +36,7 @@ const Info = (props: InfoProps) => {
 
   useEffect(() => {
     useSSESubscription<NewMessageSubscription>(NEW_MESSAGE_SUBSCRIPTION, (data) => {
-      console.log("new message", data)
+      console.log("new message lalalla", data)
       setSubData(data)
     })
   }, []);
