@@ -13,7 +13,7 @@ import {Button} from "@/components/ui/button";
 import {gqlClient} from "@/components/GraphqlClient";
 import {useSSESubscription} from "@/client-ops/Subscriptions";
 
-export const base = process.env.NODE_ENV === "development" ? 'http://localhost:3000': 'https://nextjs-graphql-subscriptions.vercel.app/' ;
+export const base = process.env.NODE_ENV === "development" ? 'http://localhost:3000': 'https://nextgql-bqkhkcvura-uc.a.run.app/' ;
 
 
 export type InfoProps = {
