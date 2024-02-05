@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['build', '-t', 'gcr.io/docker-nextjs-graphql/nextgql', '.']
+    args: ['builds', '-t', 'gcr.io/docker-nextjs-graphql/nextgql', '.']
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['push', 'gcr.io/docker-nextjs-graphql/nextgql']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
