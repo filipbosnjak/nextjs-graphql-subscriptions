@@ -1,8 +1,9 @@
 "use client"
 
 import React, {useEffect} from 'react';
-import {ApolloProvider, gql, HttpLink, split} from "@apollo/client";
+import {ApolloProvider} from "@apollo/client";
 import {
+  NewMessageSubscription,
   SendMessageMutationVariables,
   useInfoQuery,
   useSendMessageMutation
@@ -10,6 +11,7 @@ import {
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {gqlClient} from "@/components/GraphqlClient";
+import {useSSESubscription} from "@/client-ops/Subscriptions";
 
 export const base = 'http://localhost:3000';
 
@@ -25,7 +27,7 @@ const Info = (props: InfoProps) => {
   const [mutateFunction, { data, loading, error }] = useSendMessageMutation({variables: {message}})
   const [reconnect, setReconnect] = React.useState<number>(0);
 
-  const [subData, setSubData] = React.useState<any>(null);
+  const [subData, setSubData] = React.useState<NewMessageSubscription | null>(null);
 
   useEffect(() => {
 
@@ -33,31 +35,10 @@ const Info = (props: InfoProps) => {
 
 
   useEffect(() => {
-
-    console.log('EventSource url:', url.toString());
-    const eventSource = new EventSource(url.toString());
-    console.log("creating the event source")
-
-    eventSource.onmessage = (event) => {
-      console.log('EventSource message:', event)
-      const data = JSON.parse(event.data);
-      console.log(data);
+    useSSESubscription<NewMessageSubscription>(NEW_MESSAGE_SUBSCRIPTION, (data) => {
+      console.log("new message", data)
       setSubData(data)
-    };
-
-
-    eventSource.onerror = (event) => {
-      console.log('EventSource failed:', event);
-      setReconnect(prevState => prevState+1);
-    };
-
-    setTimeout(() => setReconnect(prevState => prevState+1), 5000);
-
-    return () => {
-      eventSource.close();
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    })
   }, []);
 
   return (
@@ -72,7 +53,7 @@ const Info = (props: InfoProps) => {
         const res = await mutateFunction({variables: messageVars})
         console.log(res.data?.sendMessage)
       }}>Send</Button>
-      <pre>{JSON.stringify(subData, null, 2)}</pre>
+      New Message: <pre>{subData?.newMessage?.body}</pre>
     </>
  );}
 

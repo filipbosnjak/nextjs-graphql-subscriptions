@@ -35,8 +35,8 @@ export const useSSESubscription = <T>(
             const chunkString = new TextDecoder().decode(value);
             // Log the chunk string
             if(chunkString.includes("data:")) {
-              const parsedData = JSON.parse(chunkString.split("data:")[1]) as T
-              onSSEvent(parsedData)
+              const parsedData = JSON.parse(chunkString.split("data:")[1])
+              onSSEvent(parsedData.data as T)
             }
             console.log(chunkString, chunkString.length);
             // Read the next chunk
