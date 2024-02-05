@@ -11,8 +11,6 @@ export const newMessage = {
     console.log("subscribing...")
     return context.pubsub.subscribe('NEW_MSG');
   },
-/*  resolve: (payload: any) => {
-    return payload
-  },*/
+
 }
 
