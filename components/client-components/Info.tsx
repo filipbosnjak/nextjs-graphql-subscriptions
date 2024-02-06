@@ -54,7 +54,7 @@ const Info = (props: InfoProps) => {
         console.log(res.data?.sendMessage)
       }}>Send</Button>
       New Message: <pre>{subData?.newMessage?.body}</pre>
-      heyy
+      heyy  asd
     </>
  );}
 
